@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/products/ProductCard';
 import { productsAPI } from '@/lib/api';
@@ -18,7 +18,7 @@ interface Product {
   numReviews?: number;
 }
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,32 +30,30 @@ export default function ProductsPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const { data } = await productsAPI.getAll({
+          page,
+          limit: 12,
+          category: category || undefined,
+          sort,
+          search: search || undefined,
+        });
+        setProducts(data.data.products);
+        setTotal(data.data.pagination.total);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProducts();
-  }, [page, category, sort, searchParams]);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const { data } = await productsAPI.getAll({
-        page,
-        limit: 12,
-        category: category || undefined,
-        sort,
-        search: search || undefined,
-      });
-      setProducts(data.data.products);
-      setTotal(data.data.pagination.total);
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [page, category, sort, search]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setPage(1);
-    fetchProducts();
   };
 
   return (
@@ -64,7 +62,6 @@ export default function ProductsPage() {
         {category ? category : 'All Products'}
       </h1>
 
-      {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <form onSubmit={handleSearch} className="flex-1 flex gap-2">
           <div className="relative flex-1">
@@ -106,7 +103,6 @@ export default function ProductsPage() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Filters Sidebar */}
         <aside className={`md:w-64 ${showFilters ? 'block' : 'hidden md:block'}`}>
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="font-semibold mb-4">Categories</h3>
@@ -140,7 +136,6 @@ export default function ProductsPage() {
           </div>
         </aside>
 
-        {/* Products Grid */}
         <main className="flex-1">
           <p className="text-gray-600 mb-4">{total} products found</p>
 
@@ -166,7 +161,6 @@ export default function ProductsPage() {
             </div>
           )}
 
-          {/* Pagination */}
           {total > 12 && (
             <div className="flex justify-center gap-2 mt-8">
               <button
@@ -191,5 +185,28 @@ export default function ProductsPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-48 mb-6"></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i}>
+                <div className="bg-gray-200 aspect-square rounded-lg mb-4"></div>
+                <div className="bg-gray-200 h-4 rounded mb-2"></div>
+                <div className="bg-gray-200 h-4 w-2/3 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    }>
+      <ProductsContent />
+    </Suspense>
   );
 }

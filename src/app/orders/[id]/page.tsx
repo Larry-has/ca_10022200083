@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, useCallback } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ordersAPI, paymentsAPI } from '@/lib/api';
@@ -42,7 +42,7 @@ interface Order {
   createdAt: string;
 }
 
-export default function OrderDetailPage() {
+function OrderDetailContent() {
   const { id } = useParams();
   const searchParams = useSearchParams();
   const isPaymentSuccess = searchParams.get('payment') === 'success';
@@ -54,31 +54,18 @@ export default function OrderDetailPage() {
   const [paymentVerified, setPaymentVerified] = useState(false);
   const { clearCart } = useCart();
 
-  useEffect(() => {
-    if (id) {
-      fetchOrder();
-    }
-  }, [id]);
-
-  // Verify payment when returning from Paystack
-  useEffect(() => {
-    if (reference && !paymentVerified) {
-      verifyPayment(reference);
-    }
-  }, [reference]);
-
-  const fetchOrder = async () => {
+  const fetchOrder = useCallback(async () => {
     try {
       const { data } = await ordersAPI.getById(id as string);
       setOrder(data.data.order);
-    } catch (error) {
-      console.error('Failed to fetch order:', error);
+    } catch (err) {
+      console.error('Failed to fetch order:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
-  const verifyPayment = async (ref: string) => {
+  const verifyPayment = useCallback(async (ref: string) => {
     setVerifying(true);
     try {
       const { data } = await paymentsAPI.verify(ref);
@@ -86,17 +73,29 @@ export default function OrderDetailPage() {
         setPaymentVerified(true);
         await clearCart();
         toast.success('Payment successful!');
-        fetchOrder(); // Refresh order data
+        fetchOrder();
       } else {
         toast.error('Payment verification failed');
       }
-    } catch (error) {
-      console.error('Payment verification error:', error);
+    } catch (err) {
+      console.error('Payment verification error:', err);
       toast.error('Could not verify payment');
     } finally {
       setVerifying(false);
     }
-  };
+  }, [clearCart, fetchOrder]);
+
+  useEffect(() => {
+    if (id) {
+      fetchOrder();
+    }
+  }, [id, fetchOrder]);
+
+  useEffect(() => {
+    if (reference && !paymentVerified) {
+      verifyPayment(reference);
+    }
+  }, [reference, paymentVerified, verifyPayment]);
 
   const handlePayNow = async () => {
     if (!order) return;
@@ -104,7 +103,7 @@ export default function OrderDetailPage() {
     try {
       const { data } = await paymentsAPI.initialize(order._id);
       window.location.href = data.data.authorization_url;
-    } catch (error) {
+    } catch {
       toast.error('Failed to initialize payment');
       setVerifying(false);
     }
@@ -172,7 +171,6 @@ export default function OrderDetailPage() {
         </span>
       </div>
 
-      {/* Order Progress */}
       {order.status !== 'cancelled' && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-lg font-semibold mb-4">Order Progress</h2>
@@ -210,7 +208,6 @@ export default function OrderDetailPage() {
       )}
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Order Items */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Order Items</h2>
           <div className="space-y-4">
@@ -241,7 +238,6 @@ export default function OrderDetailPage() {
           </div>
         </div>
 
-        {/* Shipping & Payment */}
         <div className="space-y-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-lg font-semibold mb-4">Shipping Address</h2>
@@ -288,5 +284,17 @@ export default function OrderDetailPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function OrderDetailPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse">Loading order...</div>
+      </div>
+    }>
+      <OrderDetailContent />
+    </Suspense>
   );
 }
