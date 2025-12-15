@@ -69,13 +69,6 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
-
-          {/* Demo accounts */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg text-sm">
-            <p className="font-semibold mb-2">Demo Accounts:</p>
-            <p>Admin: admin@ghanatech.com / admin123</p>
-            <p>Customer: customer@test.com / test123</p>
-          </div>
         </div>
       </div>
     </div>
