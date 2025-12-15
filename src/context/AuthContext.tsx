@@ -30,21 +30,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const { data } = await authAPI.getMe();
+          setUser(data.data.user);
+        } catch {
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
+    };
     checkAuth();
   }, []);
-
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const { data } = await authAPI.getMe();
-        setUser(data.data.user);
-      } catch (error) {
-        localStorage.removeItem('token');
-      }
-    }
-    setLoading(false);
-  };
 
   const login = async (email: string, password: string) => {
     const { data } = await authAPI.login({ email, password });

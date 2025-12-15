@@ -69,8 +69,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const { data } = await cartAPI.add(productId, quantity);
       setCart(data.data.cart);
       toast.success('Added to cart');
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to add to cart');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to add to cart');
     } finally {
       setLoading(false);
     }
@@ -81,8 +82,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       const { data } = await cartAPI.update(productId, quantity);
       setCart(data.data.cart);
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to update cart');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to update cart');
     } finally {
       setLoading(false);
     }
@@ -94,8 +96,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const { data } = await cartAPI.remove(productId);
       setCart(data.data.cart);
       toast.success('Item removed');
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to remove item');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to remove item');
     } finally {
       setLoading(false);
     }

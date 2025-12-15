@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -9,12 +9,6 @@ import { formatCurrency, GHANA_REGIONS } from '@/lib/utils';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-
-declare global {
-  interface Window {
-    PaystackPop: any;
-  }
-}
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -76,12 +70,13 @@ export default function CheckoutPage() {
 
         // Redirect to Paystack checkout
         window.location.href = authorization_url;
-      } catch (paymentError: any) {
+      } catch {
         toast.error('Payment initialization failed. You can pay later from your orders page.');
         router.push(`/orders/${order._id}`);
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to place order');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to place order');
     } finally {
       setLoading(false);
     }

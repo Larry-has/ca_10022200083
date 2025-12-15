@@ -35,8 +35,9 @@ export default function RegisterPage() {
         phone: formData.phone,
         password: formData.password,
       });
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Registration failed');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Registration failed');
     } finally {
       setLoading(false);
     }

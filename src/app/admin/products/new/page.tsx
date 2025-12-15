@@ -63,8 +63,9 @@ export default function NewProductPage() {
       });
       toast.success('Product created successfully');
       router.push('/admin/products');
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to create product');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to create product');
     } finally {
       setLoading(false);
     }

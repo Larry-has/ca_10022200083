@@ -21,8 +21,9 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password);
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Login failed');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Login failed');
     } finally {
       setLoading(false);
     }

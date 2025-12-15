@@ -81,8 +81,9 @@ export default function EditProductPage() {
       });
       toast.success('Product updated successfully');
       router.push('/admin/products');
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to update product');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast.error(err.response?.data?.error || 'Failed to update product');
     } finally {
       setLoading(false);
     }
