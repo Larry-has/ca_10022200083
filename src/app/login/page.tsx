@@ -70,6 +70,20 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
+
+          <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
+            <p className="text-sm font-semibold text-gray-700 mb-2">Demo Accounts:</p>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Admin:</span>
+                <span className="font-mono text-gray-800">admin@ghanatech.com / admin123</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Customer:</span>
+                <span className="font-mono text-gray-800">customer@test.com / test123</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

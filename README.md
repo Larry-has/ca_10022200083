@@ -1,6 +1,26 @@
-# GhanaTech Store - Frontend
+# GhanaTech Store - E-Commerce Platform
 
-A Next.js 14 e-commerce frontend for the GhanaTech Store.
+**Student Name:** Lawrence Effah
+**Index Number:** 10022200083
+**Course:** CS/IT4131 - Cloud Applications
+**Semester:** First Semester 2025/2026
+
+---
+
+A full-stack e-commerce platform built with Next.js 14 and Node.js/Express, deployed on cloud infrastructure.
+
+## Live Demo
+
+- **Frontend:** https://ca10022200083.netlify.app
+- **Backend API:** https://cataazinbackend.onrender.com
+
+## Documentation
+
+All project documentation is available in the `/docs` folder:
+- [Project Documentation Report (PDR)](./docs/PROJECT_DOCUMENTATION_REPORT.md)
+- [ERD Diagram](./docs/ERD_DIAGRAM.md)
+- [Use Case Diagrams](./docs/USE_CASE_DIAGRAMS.md)
+- [System Architecture](./docs/SYSTEM_ARCHITECTURE.md)
 
 ## Tech Stack
 
