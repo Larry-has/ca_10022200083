@@ -3,8 +3,8 @@
 
 ---
 
-**Student Name:** [YOUR NAME HERE]
-**Index Number:** [YOUR INDEX NUMBER]
+**Student Name:** Lawrence Effah
+**Index Number:** 10022200083
 **Course:** CS/IT4131 - Cloud Applications
 **Lecturer:** Godwin Ntow Danso
 **Date:** December 2024
@@ -46,7 +46,6 @@
 | Payment Preference | Mobile Money (70%), Card (30%) |
 | Primary Device | Mobile (65%), Desktop (35%) |
 
-**[INSERT SCREENSHOT: Your Google Doc brainstorm with date stamp]**
 
 ---
 
@@ -79,7 +78,6 @@
 | Payment Provider (Paystack) | Handles transactions | Medium | Medium | API integration required |
 | Delivery Partners | Fulfill orders | Medium | Low | Need order details |
 
-**[INSERT SCREENSHOT: WhatsApp conversation with a potential customer about their needs]**
 
 ---
 
@@ -138,7 +136,6 @@ Day 10: Deployment & Documentation
 | Database | MongoDB Atlas (Free) | Data storage |
 | Payment | Paystack (Test mode) | Payment processing |
 
-**[INSERT PHOTO: Hand-drawn Gantt chart, then digitized version in Excel/Sheets]**
 
 ---
 
@@ -194,7 +191,6 @@ Main Flow:
 Postcondition: Order is placed, payment is processed
 ```
 
-**[INSERT SCREENSHOT: Use case diagram (hand-drawn or digital)]**
 
 ---
 
@@ -299,7 +295,6 @@ Postcondition: Order is placed, payment is processed
 }
 ```
 
-**[INSERT SCREENSHOT: Hand-drawn ERD sketch + digital version]**
 
 ---
 
@@ -363,7 +358,6 @@ Postcondition: Order is placed, payment is processed
 | Payments | Paystack | Ghana's leading payment gateway |
 | Hosting | Vercel + Render | Free tiers, easy deployment |
 
-**[INSERT SCREENSHOT: Hand-drawn architecture sketch + refined digital version]**
 
 ---
 
@@ -425,7 +419,6 @@ Postcondition: Order is placed, payment is processed
 └────────────────────────────────────────────────┘
 ```
 
-**[INSERT SCREENSHOTS: Figma/hand-drawn wireframes evolution]**
 
 ---
 
@@ -477,7 +470,6 @@ Integrated Paystack payment gateway that supports:
 - Makes e-commerce accessible to unbanked population
 - Aligns with Ghana's digital payment push
 
-**[INSERT SCREENSHOT: Mind-map created in Excel/Word/Paper]**
 
 ---
 
@@ -554,7 +546,6 @@ const handlePlaceOrder = async () => {
 };
 ```
 
-**[INSERT SCREENSHOT: VS Code showing the paystack.js file]**
 
 ---
 
@@ -615,9 +606,7 @@ exports.protect = async (req, res, next) => {
 };
 ```
 
-**[INSERT SCREENSHOT: Terminal showing "npm start" output with MongoDB connected]**
 
-**[INSERT SCREENSHOT: VS Code with API routes file open]**
 
 ---
 
@@ -687,9 +676,7 @@ export function CartProvider({ children }) {
 }
 ```
 
-**[INSERT SCREENSHOT: Browser showing cart functionality with Network tab open showing Axios POST]**
 
-**[INSERT SCREENSHOT: Any bug fix - console error + the fixed code]**
 
 ---
 
@@ -727,7 +714,6 @@ Response:
 }
 ```
 
-**[INSERT SCREENSHOT: Postman showing the Paystack API call (blur your API key)]**
 
 ---
 
@@ -750,7 +736,6 @@ Response:
 | TC07 | Create Product | Product added to DB | Passed | ✅ |
 | TC08 | Update Order Status | Status changed | Passed | ✅ |
 
-**[INSERT SCREENSHOT: Terminal showing test results OR manual testing in browser]**
 
 ---
 
@@ -791,13 +776,11 @@ jobs:
 
 | Service | Platform | URL |
 |---------|----------|-----|
-| Frontend | Vercel | https://ghanatech-store.vercel.app |
-| Backend | Render | https://ghanatech-api.onrender.com |
+| Frontend | Netlify | https://ca10022200083.netlify.app |
+| Backend | Render | https://cataazinbackend.onrender.com |
 | Database | MongoDB Atlas | mongodb+srv://... |
 
-**[INSERT SCREENSHOT: GitHub Actions workflow running]**
 
-**[INSERT SCREENSHOT: Vercel/Render dashboard showing deployment]**
 
 ---
 
@@ -807,7 +790,7 @@ jobs:
 |-------------|--------|----------|
 | Project Documentation Report (PDR) | ✅ | This document |
 | System Architecture Diagram | ✅ | Section C |
-| Source Code in GitHub | ✅ | github.com/[username]/ca_[index_number] |
+| Source Code in GitHub | ✅ | github.com/Larry-has/ca10022200083 |
 | Testing Report | ✅ | Section F |
 | Deployed Application | ✅ | [URLs above] |
 
@@ -825,5 +808,3 @@ jobs:
 ---
 
 **END OF DOCUMENT**
-
-*Generated for CS/IT4131 Cloud Applications Examination 2025*
